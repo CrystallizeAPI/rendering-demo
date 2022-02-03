@@ -1,34 +1,15 @@
 import type { LoaderFunction } from "remix";
 import { useLoaderData, Link, Outlet } from "remix";
-import { sendGraphQLRequest } from "~/libs/remix-graphql.server";
-import { CATALOGUE_API_ENDPOINT } from "~/utils/crystallize.server";
+import { getProducts } from "~/utils/crystallize.server";
 
-const GET_PRODUCTS_QUERY = /* GraphQL */ `
-  query {
-    catalogue(language: "en", path: "/") {
-      id
-      products: children {
-        id
-        name
-        path
-      }
-    }
-  }
-`;
-
-export const loader: LoaderFunction = (args) =>
-  sendGraphQLRequest({
-    args,
-    endpoint: CATALOGUE_API_ENDPOINT,
-    query: GET_PRODUCTS_QUERY,
-  });
+export const loader: LoaderFunction = async (args) => {
+  const data = await getProducts();
+  return { products: data?.catalogue?.products || [] };
+};
 
 export default function ProductsRoute() {
-  const {
-    data: {
-      catalogue: { products },
-    },
-  } = useLoaderData();
+  const { products } = useLoaderData();
+  if (!products) return null;
 
   return (
     <div style={{ display: "flex", gap: 64, padding: "0 32px" }}>

@@ -11,23 +11,51 @@ export function App() {
   const products = productsQuery.data.catalogue?.products || [];
 
   return (
-    <div style={{ display: "flex", gap: 64, padding: "0 32px" }}>
-      <div>
-        <ul style={{ margin: 0, padding: 0 }}>
+    <div
+      style={{
+        display: "flex",
+        gap: 64,
+        padding: "0 32px",
+        maxWidth: "48rem",
+        margin: "64px auto",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <ul
+          style={{
+            margin: 0,
+            padding: 0,
+            listStyleType: "none",
+            display: "flex",
+            flexDirection: "column",
+            gap: 6,
+          }}
+        >
           {products.map((product: any) => (
             <li key={product.id}>
               <Link to={`${product.path}`}>{product.name}</Link>
             </li>
           ))}
         </ul>
-        <Link to="/">Back home</Link>
+        <Link to="/" style={{ marginTop: 4, display: "block" }}>
+          Back home
+        </Link>
       </div>
       <div
         style={{
-          padding: "4px 32px",
+          height: "8rem",
           flex: 1,
-          background: "#eee",
-          borderRadius: 4,
+          display: "flex",
+          alignItems: "center",
+          padding: "0 48px",
+          background: "#BFF6F8",
+          borderRadius: 8,
         }}
       >
         <Routes>
@@ -52,8 +80,10 @@ function Product() {
 
   return (
     <div>
-      <h1>{product.name}</h1>
-      <p>{product.summary.content.plainText[0]}</p>
+      <h1 style={{ margin: 0 }}>{product.name}</h1>
+      <p style={{ margin: 0, marginTop: 12 }}>
+        {product.summary.content.plainText[0]}
+      </p>
     </div>
   );
 }

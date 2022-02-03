@@ -1,6 +1,8 @@
 import type { LoaderFunction } from "remix";
-import { useLoaderData, Link, Outlet } from "remix";
+import { useLoaderData, Outlet } from "remix";
 import { getProducts } from "~/utils/crystallize.server";
+import { Layout } from "~/components/Layout";
+import { ProductNav } from "~/components/ProductNav";
 
 export const loader: LoaderFunction = async (args) => {
   const data = await getProducts();
@@ -12,28 +14,8 @@ export default function ProductsRoute() {
   if (!products) return null;
 
   return (
-    <div style={{ display: "flex", gap: 64, padding: "0 32px" }}>
-      <div>
-        <ul style={{ margin: 0, padding: 0 }}>
-          {products.map((product: any) => (
-            <li key={product.id}>
-              <Link to={`/script${product.path}`}>{product.name}</Link>
-            </li>
-          ))}
-        </ul>
-        <Link to="/">Back home</Link>
-      </div>
-
-      <div
-        style={{
-          padding: "4px 32px",
-          flex: 1,
-          background: "#eee",
-          borderRadius: 4,
-        }}
-      >
-        <Outlet />
-      </div>
-    </div>
+    <Layout nav={<ProductNav basePath="script" products={products} />}>
+      <Outlet />
+    </Layout>
   );
 }

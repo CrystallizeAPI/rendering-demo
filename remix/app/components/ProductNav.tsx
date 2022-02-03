@@ -1,7 +1,7 @@
-import Link from "next/link";
+import { Link } from "remix";
 
 interface ProductNavProps {
-  basePath: "static" | "dynamic";
+  basePath: "script" | "no-script";
   products: any[];
 }
 
@@ -27,14 +27,12 @@ export function ProductNav({ basePath, products }: ProductNavProps) {
       >
         {products.map((product: any) => (
           <li key={product.id}>
-            <Link href={`/${basePath}${product.path}`}>{product.name}</Link>
+            <Link to={`/${basePath}${product.path}`}>{product.name}</Link>
           </li>
         ))}
       </ul>
-      <Link href="/" passHref>
-        <a style={{ marginTop: 4, display: "block", color: "#373567" }}>
-          Back home
-        </a>
+      <Link to="/" style={{ marginTop: 4, display: "block", color: "#373567" }}>
+        Back home
       </Link>
     </div>
   );

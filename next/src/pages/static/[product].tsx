@@ -59,7 +59,6 @@ interface StaticProductPageProps {
 export const getStaticProps: GetStaticProps<StaticProductPageProps> = async ({
   params,
 }) => {
-  console.log(params);
   const data = await catalogueClient.request(GET_INDIVIDUAL_PRODUCT_QUERY, {
     path: `/${params.product}`,
   });
@@ -77,8 +76,10 @@ const StaticProductPage: NextPage<StaticProductPageProps> = ({ data }) => {
   return (
     <Layout nav={<ProductNav basePath="static" products={products} />}>
       <div>
-        <h1>{product.name}</h1>
-        <p>{product.summary.content.plainText[0]}</p>
+        <h1 style={{ margin: 0 }}>{product.name}</h1>
+        <p style={{ margin: 0, marginTop: 12 }}>
+          {product.summary.content.plainText[0]}
+        </p>
       </div>
     </Layout>
   );

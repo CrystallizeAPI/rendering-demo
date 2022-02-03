@@ -1,5 +1,5 @@
 import type { LoaderFunction } from "remix";
-import { useLoaderData, Link } from "remix";
+import { useLoaderData, Link, Outlet } from "remix";
 import { sendGraphQLRequest } from "remix-graphql";
 import { CATALOGUE_API_ENDPOINT } from "~/utils/crystallize.server";
 
@@ -23,10 +23,6 @@ export const loader: LoaderFunction = (args) =>
     query: GET_PRODUCTS_QUERY,
   });
 
-export const handle = {
-  hydrate: () => true,
-};
-
 export default function ProductsRoute() {
   const {
     data: {
@@ -35,12 +31,28 @@ export default function ProductsRoute() {
   } = useLoaderData();
 
   return (
-    <ul>
-      {products.map((product: any) => (
-        <li key={product.id}>
-          <Link to={`/script${product.path}`}>{product.name}</Link>
-        </li>
-      ))}
-    </ul>
+    <div style={{ display: "flex", gap: 64, padding: "0 32px" }}>
+      <div>
+        <ul style={{ margin: 0, padding: 0 }}>
+          {products.map((product: any) => (
+            <li key={product.id}>
+              <Link to={`/script${product.path}`}>{product.name}</Link>
+            </li>
+          ))}
+        </ul>
+        <Link to="/">Back home</Link>
+      </div>
+
+      <div
+        style={{
+          padding: "4px 32px",
+          flex: 1,
+          background: "#eee",
+          borderRadius: 4,
+        }}
+      >
+        <Outlet />
+      </div>
+    </div>
   );
 }

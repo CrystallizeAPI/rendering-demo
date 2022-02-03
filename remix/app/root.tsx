@@ -4,15 +4,18 @@ import {
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration
+  ScrollRestoration,
 } from "remix";
 import type { MetaFunction } from "remix";
+import { useShouldHydrate } from "remix-utils";
 
 export const meta: MetaFunction = () => {
-  return { title: "New Remix App" };
+  return { title: "Crystallize | Remix Rendering Demo" };
 };
 
 export default function App() {
+  let shouldHydrate = useShouldHydrate();
+
   return (
     <html lang="en">
       <head>
@@ -24,7 +27,7 @@ export default function App() {
       <body>
         <Outlet />
         <ScrollRestoration />
-        <Scripts />
+        {shouldHydrate ? <Scripts /> : null}
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>

@@ -1,6 +1,6 @@
 import type { LoaderFunction } from "remix";
 import { useLoaderData, Link, Outlet } from "remix";
-import { sendGraphQLRequest } from "remix-graphql";
+import { sendGraphQLRequest } from "~/libs/remix-graphql.server";
 import { CATALOGUE_API_ENDPOINT } from "~/utils/crystallize.server";
 
 const GET_PRODUCTS_QUERY = /* GraphQL */ `
